@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.0
+// @version      1.1.0
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
 // @match        https://www.wanikani.com/kanji/*
+// @match        https://www.wanikani.com/vocabulary/*
 // @run-at       document-end
 // @grant        none
 // ==/UserScript==
@@ -14,7 +15,7 @@
 
     const ksoFont = 'KanjiStrokeOrders';
     const ksoStyle = `<style>
-      .kanji-icon.enlarge-hover {
+      .kanji-icon.enlarge-hover, .vocabulary-icon.enlarge-hover {
         font-family: "${ksoFont}";
         font-weight: normal;
       }
