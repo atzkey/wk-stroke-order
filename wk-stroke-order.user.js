@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.1.0
+// @version      1.1.2
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
 // @match        https://www.wanikani.com/kanji/*
@@ -33,6 +33,8 @@
 
     function isFontAvailable(fontName) {
         let canvas = document.createElement("canvas");
+        canvas.width = 1000;
+
         let context = canvas.getContext("2d");
 
         // the text whose final pixel size I want to measure
