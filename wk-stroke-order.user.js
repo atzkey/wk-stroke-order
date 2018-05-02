@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.1.2
+// @version      1.1.3
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
 // @match        https://www.wanikani.com/kanji/*
@@ -42,13 +42,13 @@
 
         let checks = ['monospace', 'sans-serif', 'serif'].map((fontFamily) => {
             // specifying the baseline font
-            context.font = "72px monospace";
+            context.font = "72px " + fontFamily;
 
             // checking the size of the baseline text
             let baselineSize = context.measureText(text).width;
 
             // specifying the font whose existence we want to check
-            context.font = "72px '" + fontName + "', monospace";
+            context.font = "72px '" + fontName + "', " + fontFamily;
 
             // checking the size of the font we want to check
             let newSize = context.measureText(text).width;
@@ -56,7 +56,7 @@
             return newSize !== baselineSize;
         });
 
-        return checks.every((x) => x);
+        return checks.find((x) => x);
     }
 
     if (isFontAvailable(ksoFont)) {
