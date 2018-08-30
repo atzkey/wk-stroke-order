@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.1.3
+// @version      1.2.0
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
 // @match        https://www.wanikani.com/kanji/*
@@ -14,21 +14,27 @@
     'use strict';
 
     const ksoFont = 'KanjiStrokeOrders';
-    const ksoStyle = `<style>
+    const ksoStyle = document.createElement('style');
+    ksoStyle.innerHTML = `
       .kanji-icon.enlarge-hover, .vocabulary-icon.enlarge-hover {
         font-family: "${ksoFont}";
         font-weight: normal;
       }
-    <style>`;
+    `;
 
     function wkAlert(text) {
-        let $alert = $(`
-          <div class="alert alert-error fade in">
-            <a class="close" data-dismiss="alert" href="#">x</a>
-            <i class="icon-exclamation-sign"></i>
-            ${text}
-          </div>`);
-        $alert.insertBefore('#search');
+        const search = document.getElementById('search');
+        const anchor = search.parentNode;
+
+        let alert = document.createElement('div');
+        alert.className = 'alert alert-error fade in';
+        alert.innerHTML = `
+          <a class="close" data-dismiss="alert" href="#">x</a>
+          <i class="icon-exclamation-sign"></i>
+          ${text}
+        `;
+
+        anchor.insertBefore(alert, search);
     }
 
     function isFontAvailable(fontName) {
@@ -60,7 +66,8 @@
     }
 
     if (isFontAvailable(ksoFont)) {
-        $('head').append(ksoStyle);
+        let head = document.getElementsByTagName('head')[0];
+        head.appendChild(ksoStyle);
     } else {
         wkAlert(`Download and install <a href="http://www.nihilist.org.uk/">Kanji Stroke Order font</a>.`);
     }
