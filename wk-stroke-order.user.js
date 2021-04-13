@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.2.1
+// @version      1.3.0
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
 // @include      /^https://((www|preview)\.)?wanikani\.com/(kanji|vocabulary)/.+$/
-// @run-at       document-end
+// @include      /^https://((www|preview)\.)?wanikani\.com/lesson/session/
+// @run-at       document-idle
 // @grant        none
 // ==/UserScript==
 
@@ -19,7 +20,14 @@
         font-family: "${ksoFont}";
         font-weight: normal;
       }
+
+      #main-info.vocabulary #character.kso, #main-info.kanji #character.kso {
+        font-family: "${ksoFont}";
+        font-size: 8em !important;
+        font-weight: normal;
+      }
     `;
+    const lessonCharacterSelector = '#main-info.vocabulary #character, #main-info.kanji #character';
 
     function wkAlert(text) {
         const search = document.getElementById('search');
@@ -64,9 +72,26 @@
         return checks.find((x) => x);
     }
 
+    function handleLessonKsoToggle(e) {
+        e.target.classList.toggle('kso');
+    }
+
     if (isFontAvailable(ksoFont)) {
         let head = document.getElementsByTagName('head')[0];
         head.appendChild(ksoStyle);
+
+        let observer = new MutationObserver(function(mutations) {
+            const character = document.querySelector(lessonCharacterSelector);
+            if (character) {
+                character.addEventListener('click', handleLessonKsoToggle);
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     } else {
         wkAlert(`Download and install <a href="http://www.nihilist.org.uk/">Kanji Stroke Order font</a>.`);
     }
