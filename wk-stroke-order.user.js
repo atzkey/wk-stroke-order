@@ -1,12 +1,18 @@
 // ==UserScript==
 // @name         WaniKani Unobtrusive Kanji Stroke Order
 // @namespace    org.atzkey
-// @version      1.4.0
+// @version      1.4.1
 // @description  An unobtrusive Kanji Stroke Order display for WaniKani
 // @author       atzkey
+//
 // @match        https://*.wanikani.com/kanji/*
+// @match        https://wanikani.com/kanji/*
+//
 // @match        https://*.wanikani.com/vocabulary/*
+// @match        https://wanikani.com/vocabulary/*
+//
 // @match        https://*.wanikani.com/subjects/*/lesson*
+// @match        https://wanikani.com/subjects/*/lesson*
 
 // @run-at       document-idle
 // @grant        none
